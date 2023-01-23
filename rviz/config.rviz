@@ -3,9 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Global Options1
-        - /Status1
+      Expanded: ~
       Splitter Ratio: 0.5
     Tree Height: 746
   - Class: rviz/Selection
@@ -56,11 +54,61 @@ Visualization Manager:
       Name: RvizScenePublisher
       Value: true
       topic_name: /rviz/image
+    - Alpha: 1
+      Class: rviz/RobotModel
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        convayor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        shovel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotModel
+      Robot Description: robot_description
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -85,20 +133,20 @@ Visualization Manager:
     Current:
       Class: rviz_animated_view_controller/Animated
       Control Mode: Orbit
-      Distance: 2
+      Distance: 5
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Eye:
-        X: 0.6101164817810059
-        Y: -0.0009717050706967711
-        Z: 2.644667148590088
+        X: 4.584009647369385
+        Y: 0.0073007456958293915
+        Z: 2.2166976928710938
       Focus:
         X: 0
         Y: 0
-        Z: 0.7400000095367432
+        Z: 0.2199999988079071
       Invert Z Axis: false
       Maintain Vertical Axis: true
       Mouse Enabled: true

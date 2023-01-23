@@ -15,15 +15,25 @@ gnome-terminal --tab -t "rosbridge server" -- bash -c "source /opt/ros/*/setup.b
 echo " - http server"
 gnome-terminal --tab -t "http server" -- bash -c "cd $SCRIPT_DIR/webpages; python3 -m http.server 8004; exec bash"
 
-sleep 2
-
-echo " - google-chrome"
-gnome-terminal -- bash -c "google-chrome http://localhost:8004"
+sleep 1
 
 #echo " - firefox"
 #gnome-terminal --tab -t "firefox" -- bash -c "firefox http://localhost:8000"
 
 # view controller
 gnome-terminal --tab -t "rviz" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_viz view_controller.py; exec bash"
+
+# rviz
+gnome-terminal --tab -t "rviz" -- bash -c "cd $SCRIPT_DIR/rviz; rviz -d config.rviz;exec bash"
+
+# ros to v4l2
+gnome-terminal --tab -t "ros2v4l2" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_viz ros_to_v4l2.py; exec bash"
+
+sleep 5
+
+# momo
+gnome-terminal --tab -t "momo" -- bash -c "cd $SCRIPT_DIR/scripts; bash momo.sh; exec bash"
+echo " - google-chrome"
+gnome-terminal -- bash -c "google-chrome http://localhost:8004/index.html"
 
 
