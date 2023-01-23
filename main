@@ -1,0 +1,28 @@
+#python3 -m http.server &
+
+#google-chrome http://localhost:8000
+#firefox http://localhost:8000 &
+
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+WS=catkin_ws
+
+echo " - rosbridge server"
+gnome-terminal --tab -t "rosbridge server" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; roslaunch  rosbridge_server rosbridge_websocket.launch; exec bash"
+
+#echo " - web video server"
+#gnome-terminal --tab -t "web video server" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_video_server web_video_server; exec bash"
+
+echo " - http server"
+gnome-terminal --tab -t "http server" -- bash -c "cd $SCRIPT_DIR/webpages; python3 -m http.server 8004; exec bash"
+
+sleep 2
+
+echo " - google-chrome"
+gnome-terminal -- bash -c "google-chrome http://localhost:8004"
+
+#echo " - firefox"
+#gnome-terminal --tab -t "firefox" -- bash -c "firefox http://localhost:8000"
+
+#echo " - rviz"
+#gnome-terminal --tab -t "rviz" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; roslaunch --wait browser rviz.launch; exec bash"
+

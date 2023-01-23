@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+  <body>
+    <div style="display:flex">
+      <div>theta:
+        <input id="input1" type="number" step="0.01" oninput="change_input1()"/>
+      </div>
+      <input id="slider1" type="range"  min="0.01" max="3.14" step="0.01" oninput="change_slider();"/>
+
+      <div>phi:
+        <input id="input2" type="number" step="0.01" oninput="change_input2()"/>
+      </div>
+      <input id="slider2" type="range" min="-3.14" max="3.14" step="0.01" oninput="change_slider();"/>
+
+      <div>radius:
+        <input id="input3" type="number" step="0.01" oninput="change_input3()"/>
+      </div>
+      <input id="slider3" type="range" min="0.1" max="2" step="0.01" oninput="change_slider();"/>
+
+    </div>
+    <div style="display:flex">
+
+        <div>fx:
+          <input id="input4" type="number" step="0.01" oninput="change_input4()"/>
+        </div>
+        <input id="slider4" type="range" min="-1" max="1" step="0.01" oninput="change_slider();"/>
+
+        <div>fy:
+          <input id="input5" type="number" step="0.01" oninput="change_input5()"/>
+        </div>
+        <input id="slider5" type="range" min="-1" max="1" step="0.01" oninput="change_slider();"/>
+
+        <div>fz:
+          <input id="input6" type="number" step="0.01" oninput="change_input6()"/>
+        </div>
+        <input id="slider6" type="range" min="-1" max="1" step="0.01" oninput="change_slider();"/>
+
+    </div>
+  </body>
+
+  <script src="./build/roslib.js"></script>
+
+
+  <script>
+
+   document.getElementById("slider1").disabled = true; 
+   document.getElementById("slider2").disabled = true; 
+   document.getElementById("slider3").disabled = true; 
+   document.getElementById("slider4").disabled = true; 
+   document.getElementById("slider5").disabled = true; 
+   document.getElementById("slider6").disabled = true; 
+
+  var ros = new ROSLIB.Ros();
+  ros.connect('ws://' + location.hostname + ':9090');
+  //ros.connect('ws://172.20.10.2:9090');
+
+  var pub = new ROSLIB.Topic({
+    ros : ros,
+    name : 'browser/viewer_data',
+    //messageType : 'geometry_msgs/Twist'
+    messageType : 'std_msgs/String'
+  });
+
+  var msg = new ROSLIB.Message({
+    data: ""
+  });
+
+  var json = {
+  "data1": 0,
+  "data2": 0,
+  "data3": 0,
+  "data4": 0,
+  "data5": 0,
+  "data6": 0,
+}
+  var listener = new ROSLIB.Topic({
+    ros : ros,
+    name : '/rviz_view_state',
+    messageType : 'std_msgs/String'
+  });
+
+  var subscribe_ = 0;
+
+  listener.subscribe(function(message) {
+    var json_data = JSON.parse(message.data);
+    var theta = json_data["theta"]
+    var phi = json_data["phi"]
+    var r = json_data["r"]
+    var fx = json_data["fx"]
+    var fy = json_data["fy"]
+    var fz = json_data["fz"]
+    console.log(json_data);
+    document.getElementById("slider1").value = theta; 
+    document.getElementById("input1").value = theta; 
+
+    document.getElementById("slider2").value = phi; 
+    document.getElementById("input2").value = phi; 
+
+    document.getElementById("slider3").value = r; 
+    document.getElementById("input3").value = r; 
+
+
+    document.getElementById("slider4").value = fx; 
+    document.getElementById("input4").value = fx; 
+
+    document.getElementById("slider5").value = fy; 
+    document.getElementById("input5").value =  fy; 
+
+    document.getElementById("slider6").value = fz; 
+    document.getElementById("input6").value = fz; 
+
+    document.getElementById("slider1").disabled = false; 
+    document.getElementById("slider2").disabled = false; 
+    document.getElementById("slider3").disabled = false; 
+    document.getElementById("slider4").disabled = false; 
+    document.getElementById("slider5").disabled = false; 
+    document.getElementById("slider6").disabled = false; 
+
+    listener.unsubscribe();
+    subscribe_ = 1;
+    change_slider();
+  });
+
+    function change_slider() {
+      if (subscribe_)
+      {
+        var slider = document.getElementById("slider1");
+        var input = document.getElementById("input1");
+
+        var slider2 = document.getElementById("slider2");
+        var input2 = document.getElementById("input2");
+
+        var slider3 = document.getElementById("slider3");
+        var input3 = document.getElementById("input3");
+
+        var slider4 = document.getElementById("slider4");
+        var input4 = document.getElementById("input4");
+
+        var slider5 = document.getElementById("slider5");
+        var input5 = document.getElementById("input5");
+
+        var slider6 = document.getElementById("slider6");
+        var input6 = document.getElementById("input6");
+
+        input.value = slider.value;
+        input2.value = slider2.value;
+        input3.value = slider3.value;
+        input4.value = slider4.value;
+        input5.value = slider5.value;
+        input6.value = slider6.value;
+        
+        json["data1"] = Number(slider.value)
+        json["data2"] = Number(slider2.value)
+        json["data3"] = Number(slider3.value)
+        json["data4"] = Number(slider4.value)
+        json["data5"] = Number(slider5.value)
+        json["data6"] = Number(slider6.value)
+
+        msg.data = JSON.stringify(json);
+
+        pub.publish(msg);
+      }
+    }
+
+  //change_slider();
+
+  function change_input1() {
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider1");
+      var input = document.getElementById("input1");
+      slider.value = input.value;
+
+      json["data1"] = Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+
+  }
+
+
+  function change_input2() {
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider2");
+      var input = document.getElementById("input2");
+      slider.value = input.value;
+
+      json["data2"] = -Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+
+  }
+
+  function change_input3() {
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider3");
+      var input = document.getElementById("input3");
+      slider.value = input.value;
+
+      json["data3"] = Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+  }
+
+  function change_input4() {
+
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider4");
+      var input = document.getElementById("input4");
+      slider.value = input.value;
+
+      json["data4"] = Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+
+  }
+
+  function change_input5() {
+
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider5");
+      var input = document.getElementById("input5");
+      slider.value = input.value;
+
+      json["data5"] = Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+
+  }
+
+  function change_input6() {
+    if (subscribe_)
+    {
+      var slider = document.getElementById("slider6");
+      var input = document.getElementById("input6");
+      slider.value = input.value;
+
+      json["data6"] = Number(slider.value);
+
+      msg.data = JSON.stringify(json);
+      pub.publish(msg);
+    }
+
+  }
+
+
+
+
+
+
+
+
+  </script>
+</head>
+</html>
+
