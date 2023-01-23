@@ -24,6 +24,6 @@ gnome-terminal -- bash -c "google-chrome http://localhost:8004"
 #gnome-terminal --tab -t "firefox" -- bash -c "firefox http://localhost:8000"
 
 # view controller
-gnome-terminal --tab -t "rviz" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_vis view_controller.py; exec bash"
+gnome-terminal --tab -t "rviz" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_viz view_controller.py; exec bash"
 
 
