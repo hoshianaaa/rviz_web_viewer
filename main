@@ -27,7 +27,7 @@ gnome-terminal --tab -t "rviz" -- bash -c "source /opt/ros/*/setup.bash; source 
 gnome-terminal --tab -t "rviz" -- bash -c "cd $SCRIPT_DIR/rviz; rviz -d config.rviz;exec bash"
 
 # ros to v4l2
-gnome-terminal --tab -t "ros2v4l2" -- bash -c "source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_viz ros_to_v4l2.py; exec bash"
+gnome-terminal --tab -t "ros2v4l2" -- bash -c "source ~/.bashrc; source /opt/ros/*/setup.bash; source $HOME/$WS/devel/setup.bash; rosrun web_viz ros_to_v4l2.py; exec bash"
 
 sleep 5
 
